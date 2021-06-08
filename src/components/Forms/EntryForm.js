@@ -33,11 +33,11 @@ export default function EntryForm() {
       {/* errors will return when field validation fails  */}
 
         <label htmlFor='stepOne'>Is the leave of absence for your own injury or illness?</label>
-        <div onChange={handleOptionSelect}>
-            <input type='radio' id='stepOneTrue' value='stepOneTrue' {...register('stepOne', {required: true})}/>
+        <div onChange={handleOptionSelect} className='mbt5'>
+            <input type='radio' id='stepOneTrue' className='mbt5' value='stepOneTrue' {...register('stepOne', {required: true})}/>
             <label htmlFor='stepOne'>True</label>
             <br/>
-            <input type='radio' id='stepOneFalse' value='stepOneFalse' {...register('stepOne', {required: true})}/>
+            <input type='radio' id='stepOneFalse' className='mbt5' value='stepOneFalse' {...register('stepOne', {required: true})}/>
             <label htmlFor='stepOne'>False</label>
         </div>
         
