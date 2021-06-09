@@ -13,16 +13,14 @@ export default function EntryForm() {
     return renderElements(data.filter((i) => i.order === formItemOrder))
   }
 
-  const renderElements = (data) => {
-        console.log('Final render JSON data', data)
-        return data.map(formItem => {
+  const renderElements = (el) => {
+        console.log('JSON data', el)
+        return el.map(formItem => {
             return (
               <div>
                 <label>{formItem.question}</label>
                 {formItem.dataType === 'radio' ?
-                  <div onChange= {(e) => 
-                    {console.log(e.target.value)
-                    e.target.value === 'Yes' && getNextFormItem(formItem.order)}
+                  <div onChange= {(e) => {e.target.value === 'Yes' && getNextFormItem(formItem.order)}
                   }>
                     <input type={formItem.dataType} className='mbt5' value={formItem.dataTypeValue.split(',')[0]} {...register('orderOne', {required: formItem.isRequired})}/>
                     <label>{formItem.dataTypeValue.split(',')[0]}</label>
@@ -36,9 +34,7 @@ export default function EntryForm() {
               </div>
             )
         })
-
   }
-
 
   return (
       <form className='entryForm'>
