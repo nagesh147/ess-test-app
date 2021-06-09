@@ -1,54 +1,57 @@
 import React, {useState, useEffect} from 'react'
 import { useForm } from 'react-hook-form'
 import './styles.css'
+import data from '../../data.json'
+import Radio from '../elements/Radio'
 
 
 export default function EntryForm() {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm()
 
-  const [selectedOption, setSelectedOption] = useState(null)
+const [formData, setFormData] = useState(data)
+let [orderLevel, setOrderLevel] = useState(1)
+const [orderOne, setOrderOne] = useState(formData.filter((i)=> i.order === 1))
 
-  useEffect(() => {
-    console.log(selectedOption)
-  }, [selectedOption])
-
-  const onSubmit = (data) => console.log(data)
-
-  console.log(watch('example')) // watch input value by passing the name of it
-  const handleOptionSelect = (e) => {
-    setSelectedOption(e.target.value)
+  const orderHandler = (order) => {
+    console.log('orderLevel-1',orderLevel)
+    setOrderLevel(order++)
+    const nextOderFormItem = formData.filter((i)=> i.order === 2)
+    console.log('entrydorm 222',orderLevel)
+    return nextOderFormItem && nextOderFormItem.map(formItem => {
+      return (
+        <div className='entryForm'>
+          <label>{formItem.question}</label>
+         { renderElement(formItem, orderLevel) }
+        </div>
+      )
+    })
   }
 
+  const renderElement = (formItem, orderLevel) => {
+    console.log('formItem', formItem)
+    switch (formItem.dataType) {
+      case 'radio':
+        return (<Radio 
+          formData = {formData}
+          formItem = {formItem}
+          orderLevel = {orderLevel}
+          orderHandler = {orderHandler}
+          setOrderLevel = {setOrderLevel}
+        />)
 
-  return (
-    /* "handleSubmit" will validate your inputs before invoking "onSubmit" */
-      <form onSubmit={handleSubmit(onSubmit)} className='entryForm'>
-      {/* register your input into the hook by invoking the "register" function */}
-      {/* include validation with required or other standard HTML validation rules */}
-      {/* errors will return when field validation fails  */}
+      default:
+        return
+  }
+  }
 
-        <label htmlFor='stepOne'>Is the leave of absence for your own injury or illness?</label>
-        <div onChange={handleOptionSelect}>
-            <input type='radio' id='stepOneTrue' value='stepOneTrue' {...register('stepOne', {required: true})}/>
-            <label htmlFor='stepOne'>True</label>
-            <br/>
-            <input type='radio' id='stepOneFalse' value='stepOneFalse' {...register('stepOne', {required: true})}/>
-            <label htmlFor='stepOne'>False</label>
-        </div>
-        
-
-
-        
+  return orderOne && orderOne.map(formItem => {
+    return (
+      <div className='entryForm'>
+        <label>{formItem.question}</label>
+       { renderElement(formItem,orderLevel) }
+      </div>
+    )
+})
 
 
 
-
-
-    </form>
-  )
 }
