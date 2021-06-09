@@ -4,9 +4,8 @@ import './styles.css'
 import data from '../../data.json'
 
 export default function EntryForm() {
-  const {
-    register,
-  } = useForm()
+  
+  const { register } = useForm()
 
   const getNextFormItem = (formItemOrder = 0) => {
     formItemOrder++
